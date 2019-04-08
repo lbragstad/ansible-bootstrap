@@ -1,0 +1,18 @@
+---
+- hosts: all
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  tasks:
+  - name: include ssh tasks
+    include_tasks: setup_ssh_keys.yaml
+  - name: clone dotfile
+    git:
+      repo: ssh://git@github.com/lbragstad/dotfiles.git
+      dest: "/home/{{ ansible_user }}/dotfiles"
+      accept_hostkey: yes
+    become: yes
+    become_user: ubuntu
+  - name: symlink dotfiles
+    shell: bash "/home/{{ ansible_user }}/dotfiles/symlink.sh"
+    become: yes
+    become_user: ubuntu
