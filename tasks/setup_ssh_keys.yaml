@@ -11,3 +11,14 @@
     creates: "/home/{{ ansible_user }}/.ssh/id_ecdsa"
   become: yes
   become_user: ubuntu
+- name: read public key
+  shell: cat "/home/{{ ansible_user }}/.ssh/id_ecdsa.pub"
+  register: ssh_public_key
+- name: authorize public key with github
+  local_action:
+    module: github_key
+    name: "{{ ansible_hostname }}"
+    token: "{{ github_access_token }}"
+    pubkey: "{{ ssh_public_key.stdout }}"
+  vars:
+    ansible_become: no
