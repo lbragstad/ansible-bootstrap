@@ -4,3 +4,15 @@
     ansible_python_interpreter: /usr/bin/python3
   roles:
   - gantsign.golang
+  tasks:
+  - name: include ssh tasks
+    include_tasks: setup_ssh_keys.yaml
+  - name: setup workspace
+    file:
+      path: "{{ item }}"
+      state: directory
+    with_items:
+      - "/home/{{ ansible_user }}/go"
+      - "/home/{{ ansible_user }}/go/src"
+    become: yes
+    become_user: ubuntu

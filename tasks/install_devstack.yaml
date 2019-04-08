@@ -1,0 +1,30 @@
+---
+- hosts: all
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  tasks:
+  - name: install common tools
+    apt:
+      name: "{{ packages }}"
+      update_cache: yes
+      state: present
+    vars:
+      packages:
+        - git
+        - vim
+  - name: include ssh tasks
+    include_tasks: setup_ssh_keys.yaml
+  - name: clone devstack
+    git:
+      repo: https://git.openstack.org/openstack-dev/devstack
+      dest: "/home/{{ ansible_user }}/devstack"
+    become: yes
+    become_user: ubuntu
+  - name: setup local.conf
+    command: "cp /home/{{ ansible_user }}/devstack/samples/local.conf /home/{{ ansible_user }}/devstack"
+    become: yes
+    become_user: ubuntu
+  - name: run devstack
+    shell: "bash /home/{{ ansible_user }}/devstack/stack.sh"
+    become: yes
+    become_user: ubuntu

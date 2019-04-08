@@ -1,0 +1,13 @@
+---
+- name: ensure ssh directory exists
+  file:
+    path: "/home/{{ ansible_user }}/.ssh"
+    state: directory
+  become: yes
+  become_user: ubuntu
+- name: generate ssh key pair
+  shell: ssh-keygen -t ecdsa -f /home/{{ansible_user}}/.ssh/id_ecdsa -q -N ""
+  args:
+    creates: "/home/{{ ansible_user }}/.ssh/id_ecdsa"
+  become: yes
+  become_user: ubuntu
