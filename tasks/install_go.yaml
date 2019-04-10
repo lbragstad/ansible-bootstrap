@@ -7,6 +7,11 @@
   tasks:
   - name: include ssh tasks
     include_tasks: setup_ssh_keys.yaml
+  - name: install build tools
+    apt:
+      name: build-essential
+      update_cache: yes
+      state: present
   - name: setup workspace
     file:
       path: "{{ item }}"
