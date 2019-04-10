@@ -3,7 +3,9 @@
   vars:
     ansible_python_interpreter: /usr/bin/python3
   roles:
-  - gantsign.golang
+    - role: gantsign.golang
+      vars:
+        golang_install_dir: '/usr/local/go'
   tasks:
   - name: include ssh tasks
     include_tasks: setup_ssh_keys.yaml
