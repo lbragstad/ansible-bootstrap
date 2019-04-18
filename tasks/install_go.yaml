@@ -23,3 +23,14 @@
       - "/home/{{ ansible_user }}/go/src"
     become: yes
     become_user: ubuntu
+  - name: clone k8s repositories
+    git:
+      repo: "ssh://git@github.com/lbragstad/{{ item }}.git"
+      dest: "/home/{{ ansible_user }}/go/src/k8s.io/{{ item }}"
+      accept_hostkey: yes
+    become: yes
+    become_user: ubuntu
+    with_items:
+      - "kubernetes"
+      - "community"
+      - "apimachinery"
