@@ -3,6 +3,8 @@
   vars:
     ansible_python_interpreter: /usr/bin/python3
   tasks:
+  - name: include common packages
+    include_tasks: install_common.yaml
   - name: install common tools
     apt:
       name: "{{ packages }}"
@@ -10,8 +12,6 @@
       state: present
     vars:
       packages:
-        - git
-        - vim
         - python-dev
         - python3-dev
         - python3.7-dev

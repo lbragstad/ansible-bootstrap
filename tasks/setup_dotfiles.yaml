@@ -5,6 +5,8 @@
   tasks:
   - name: include ssh tasks
     include_tasks: setup_ssh_keys.yaml
+  - name: include common packages
+    include_tasks: install_common.yaml
   - name: clone dotfile
     git:
       repo: ssh://git@github.com/lbragstad/dotfiles.git
